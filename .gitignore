@@ -1,0 +1,12 @@
+/node_modules
+/npm-debug.log
+/dist
+/.basement
+/config/config.local.js
+/example/.umi
+/example/.umi-production
+/yarn.lock
+
+.DS_Store
+bigfly.json
+.node
