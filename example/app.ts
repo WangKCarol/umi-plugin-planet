@@ -1,4 +1,4 @@
-export const request = {
+export const planet = {
   prefix: 'api',
   middlewares: [
     async (ctx, next: any) => {

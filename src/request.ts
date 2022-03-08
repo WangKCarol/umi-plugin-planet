@@ -139,7 +139,7 @@ const getRequestMethod = () => {
   // runtime 配置可能应为依赖顺序的问题在模块初始化的时候无法获取，所以需要封装一层在异步调用后初始化相关方法
   // 当用户的 app.ts 中依赖了该文件的情况下就该模块的初始化时间就会被提前，无法获取到运行时配置
   const requestConfig: RequestConfig = plugin.applyPlugins({
-    key: 'request',
+    key: 'planet',
     type: ApplyPluginsType.modify,
     initialValue: {},
   });

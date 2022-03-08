@@ -7,18 +7,21 @@ export interface RequestOptions {
   proxy?: any;
 }
 
-export default function (api: IApi) {
+export default function(api: IApi) {
   // 注册乾坤插件
-  api.registerPlugins([
-    require.resolve('@umijs/plugin-model'),
-    require.resolve('@umijs/plugin-qiankun')
-  ])
+  if (!api.hasPlugins(['@umijs/plugin-model'])) {
+    api.registerPlugins([require.resolve('@umijs/plugin-model')]);
+  }
+  if (api.hasPlugins(['@umijs/plugin-request'])) {
+    api.skipPlugins(['@umijs/plugin-request']);
+  }
+  api.registerPlugins([require.resolve('@umijs/plugin-qiankun')]);
   const {
     paths,
     utils: { winPath },
   } = api;
 
-  api.addRuntimePluginKey(() => 'request');
+  api.addRuntimePluginKey(() => 'planet');
 
   const umiRequestPkgPath = winPath(
     dirname(require.resolve('umi-request/package')),
@@ -73,7 +76,7 @@ export default function (api: IApi) {
     winPath(join(__dirname, '../src/ui/noop.ts')),
     'utf-8',
   );
-  const namespace = 'plugin-request';
+  const namespace = 'plugin-planet';
 
   api.chainWebpack((webpackConfig: any) => {
     // decoupling antd ui library
@@ -88,7 +91,8 @@ export default function (api: IApi) {
   });
 
   api.onGenerateFiles(() => {
-    const { dataField = 'data' } = api?.config?.planet as RequestOptions || {};
+    const { dataField = 'data' } =
+      (api?.config?.planet as RequestOptions) || {};
     try {
       // Write .umi/plugin-request/request.ts
       let formatResultStr;
@@ -118,9 +122,12 @@ import { ApplyPluginsType } from 'umi';
 import { history, plugin } from '../core/umiExports';
             `,
           )
-          .replace(/\/\*REQINTERCEPTORSSTART\*\/(.+)\/\*REQINTERCEPTORSEND\*\//, `
+          .replace(
+            /\/\*REQINTERCEPTORSSTART\*\/(.+)\/\*REQINTERCEPTORSEND\*\//,
+            `
           requestMethodInstance.interceptors.request.use((url: any, options: any) => ({url: '${formatRequestUrl}'+url, options}))
-          `), // set proxy
+          `,
+          ), // set proxy
       });
       const uiTmpDir = join(api.paths.absTmpPath!, namespace, 'ui');
       !existsSync(uiTmpDir) && mkdirSync(uiTmpDir, { recursive: true });
