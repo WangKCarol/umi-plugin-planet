@@ -89,7 +89,11 @@ export default function(api: IApi) {
 
     return webpackConfig;
   });
-
+  api.addHTMLHeadScripts(() => [
+    {
+      content: `window.planetConfig=${JSON.stringify(api.config.planet || {})}`,
+    },
+  ]);
   api.onGenerateFiles(() => {
     const { dataField = 'data' } =
       (api?.config?.planet as RequestOptions) || {};

@@ -7,7 +7,7 @@ export default defineConfig({
     dataField: 'ppp',
     proxy: {
       development: 'http://localhost:8008/',
-      prod: 'http://localhost:8008/'
+      production: 'http://localhost:8009/'
     }
   },
 });

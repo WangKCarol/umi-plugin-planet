@@ -10,6 +10,7 @@
   "repository": "planetjs/umi-plugin-planet",
   "scripts": {
     "start": "cross-env APP_ROOT=example umi dev",
+    "build:e": "cross-env APP_ROOT=example umi build",
     "build": "father-build",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
     "test": "umi-test",
