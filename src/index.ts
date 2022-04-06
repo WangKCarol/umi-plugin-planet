@@ -15,7 +15,10 @@ export default function(api: IApi) {
   if (api.hasPlugins(['@umijs/plugin-request'])) {
     api.skipPlugins(['@umijs/plugin-request']);
   }
-  api.registerPlugins([require.resolve('@umijs/plugin-qiankun')]);
+  if (api.hasPlugins(['@umijs/plugin-qiankun'])) {
+    api.skipPlugins(['@umijs/plugin-qiankun']);
+  }
+  api.registerPlugins([require.resolve('./qiankun')]);
   const {
     paths,
     utils: { winPath },
@@ -56,6 +59,10 @@ export default function(api: IApi) {
             .pattern(/^[a-zA-Z]*$/)
             .allow(''),
           proxy: joi.object(),
+          qiankun: joi.object().keys({
+            slave: joi.object(),
+            master: joi.object(),
+          }),
         });
       },
       default: {
@@ -111,6 +118,9 @@ export default function(api: IApi) {
       if (proxy?.[env]) {
         formatRequestUrl = proxy[env];
       }
+      api.addEntryCode(() => {
+        return `console.log('works!')`;
+      });
       api.writeTmpFile({
         path: winPath(join(namespace, 'request.ts')),
         content: requestTemplate
