@@ -9,7 +9,7 @@ config for planet
 
 ```bash
 # or yarn
-$ npm install
+$ npm install umi-plugin-planet
 ```
 ## Development UI
 
@@ -19,8 +19,6 @@ UI mini start:
 $ npm run build --watch
 $ npm run start
 ```
-
-<img src="https://user-images.githubusercontent.com/13595509/67024897-bbeede80-f137-11e9-9f19-6a3f0ea3f6cd.png" width="768" />
 
 ## Usage
 
@@ -36,7 +34,26 @@ export default {
 
 ## Options
 
-TODO
+```js
+export default {
+  qiankun: {
+    // qiankun config
+    master: {
+      apps: [
+        // config xingxingId only
+        { xingxingId: '' }
+      ]
+    }
+  },
+  planet: {
+    // umi-request config
+    proxy: { // cors
+      development: 'http://localhost:8008/',
+      production: 'http://localhost:8009/',
+    },
+  }
+}
+```
 
 ## LICENSE
 
