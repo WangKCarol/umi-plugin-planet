@@ -1,6 +1,6 @@
 {
   "name": "umi-plugin-planet",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "lib/index.js",
   "description": "config for planet",
   "authors": {
